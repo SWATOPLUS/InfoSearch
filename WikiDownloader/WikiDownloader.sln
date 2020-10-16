@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader", "WikiDownloader\WikiDownloader.csproj", "{F6D3BDA7-415D-4305-8A11-75F596304D89}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.DAL.Mongo", "WikiDownloader.DAL.Mongo\WikiDownloader.DAL.Mongo.csproj", "{3E76ED13-01C3-4B0A-92F4-0EF92BD7AEB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.Abstractions", "WikiDownloader.Abstractions\WikiDownloader.Abstractions.csproj", "{AF2A902C-7D33-46D3-8800-CF64C9D27A45}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.ContentLoaderWeb", "WikiDownloader.ContentLoaderWeb\WikiDownloader.ContentLoaderWeb.csproj", "{49F076BB-33DF-49CE-A4C4-4EF8011310C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.Services", "WikiDownloader.Services\WikiDownloader.Services.csproj", "{E637107A-307B-4457-9ECE-F71DE89B5D6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.GraphBuilderCli", "WikiDownloader.GraphBuilderCli\WikiDownloader.GraphBuilderCli.csproj", "{76754C9E-4825-408A-A784-FA8CED28F225}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiDownloader.GraphAnalyzerCli", "WikiDownloader.GraphAnalyzerCli\WikiDownloader.GraphAnalyzerCli.csproj", "{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6D3BDA7-415D-4305-8A11-75F596304D89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6D3BDA7-415D-4305-8A11-75F596304D89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6D3BDA7-415D-4305-8A11-75F596304D89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6D3BDA7-415D-4305-8A11-75F596304D89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E76ED13-01C3-4B0A-92F4-0EF92BD7AEB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E76ED13-01C3-4B0A-92F4-0EF92BD7AEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E76ED13-01C3-4B0A-92F4-0EF92BD7AEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E76ED13-01C3-4B0A-92F4-0EF92BD7AEB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF2A902C-7D33-46D3-8800-CF64C9D27A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF2A902C-7D33-46D3-8800-CF64C9D27A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF2A902C-7D33-46D3-8800-CF64C9D27A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF2A902C-7D33-46D3-8800-CF64C9D27A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49F076BB-33DF-49CE-A4C4-4EF8011310C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F076BB-33DF-49CE-A4C4-4EF8011310C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F076BB-33DF-49CE-A4C4-4EF8011310C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F076BB-33DF-49CE-A4C4-4EF8011310C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E637107A-307B-4457-9ECE-F71DE89B5D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E637107A-307B-4457-9ECE-F71DE89B5D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E637107A-307B-4457-9ECE-F71DE89B5D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E637107A-307B-4457-9ECE-F71DE89B5D6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76754C9E-4825-408A-A784-FA8CED28F225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76754C9E-4825-408A-A784-FA8CED28F225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76754C9E-4825-408A-A784-FA8CED28F225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76754C9E-4825-408A-A784-FA8CED28F225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {005EEB0F-0A67-4CD4-91C4-A29D49254FA8}
+	EndGlobalSection
+EndGlobal

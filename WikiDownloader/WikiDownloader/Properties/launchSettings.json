@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WikiDownloader": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}

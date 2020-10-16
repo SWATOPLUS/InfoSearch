@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WikiDownloader.GraphAnalyzerCli": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}
