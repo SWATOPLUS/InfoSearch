@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DuplicateFinder.DuplicateManipulator": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}

@@ -6,12 +6,12 @@ namespace WikiDownloader.GraphAnalyzerCli.Models
     {
         public int Iterations { get; set; }
 
-        public double Delta { get; set; }
+        public decimal Delta { get; set; }
 
-        public double Error { get; set; }
+        public decimal Error { get; set; }
         
-        public Dictionary<string, double> TopPageRanks { get; set; }
+        public Dictionary<string, decimal> TopPageRanks { get; set; }
 
-        public Dictionary<string, double> PageRanks { get; set; }
+        public Dictionary<string, decimal> PageRanks { get; set; }
     }
 }

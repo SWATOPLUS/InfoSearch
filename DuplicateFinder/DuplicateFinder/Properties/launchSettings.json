@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DuplicateFinder": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}

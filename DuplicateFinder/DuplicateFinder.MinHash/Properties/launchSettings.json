@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DuplicateFinder.MinHash": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}

@@ -8,12 +8,12 @@ namespace WikiDownloader.GraphAnalyzerCli
 {
     internal static class Program
     {
-        private static readonly double[] Deltas = { 0.95, 0.85, 0.5, 0.3 };
+        private static readonly decimal[] Deltas = {0.95m, 0.85m, 0.5m, 0.3m};
 
         private const int Iterations = 100;
 
         private const string EdgesInputFileName = "edges.output.json";
-        private static  string BuildRanksOutputFileName(double delta) => $"ranks-{delta}.output.json";
+        private static  string BuildRanksOutputFileName(decimal delta) => $"ranks-{delta}.output.json";
 
         private static void Main(string[] args)
         {
@@ -34,21 +34,25 @@ namespace WikiDownloader.GraphAnalyzerCli
         }
 
         private static PageRankResult BuildPageRank(
-            double delta,
+            decimal delta,
             Dictionary<string, string[]> inputs,
             Dictionary<string, string[]> outputs)
         {
             var pageCount = outputs.Keys.Count;
-            var initialRank = 1.0 / pageCount;
+            var initialRank = 1m / pageCount;
 
             var pageRanks = outputs.Keys
                 .ToDictionary(x => x, x => initialRank);
+            
 
             foreach (var _ in Enumerable.Range(0, Iterations))
             {
+                var oldPageRanks = pageRanks;
+                pageRanks = new Dictionary<string, decimal>();
+
                 foreach (var key in outputs.Keys)
                 {
-                    var result = (1.0 - delta) / pageCount;
+                    var result = (1m - delta) / pageCount;
 
                     if (!inputs.ContainsKey(key))
                     {
@@ -58,7 +62,7 @@ namespace WikiDownloader.GraphAnalyzerCli
                     }
 
                     var sum = inputs[key]
-                        .Sum(inputKey => pageRanks[inputKey] / outputs[inputKey].Length);
+                        .Sum(inputKey => oldPageRanks[inputKey] / outputs[inputKey].Length);
 
                     pageRanks[key] = result + delta * sum;
                 }
@@ -68,7 +72,7 @@ namespace WikiDownloader.GraphAnalyzerCli
             {
                 Iterations = Iterations,
                 Delta = delta,
-                Error = 1.0 - pageRanks.Values.Sum(),
+                Error = 1m - pageRanks.Values.Sum(),
                 TopPageRanks = pageRanks
                     .OrderByDescending(x => x.Value)
                     .Take(10)
