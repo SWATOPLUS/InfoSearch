@@ -63,6 +63,8 @@ namespace WikiDownloader.GraphBuilderCli.Services
                 {
                     throw new InvalidOperationException();
                 }
+
+                Type = type;
             }
 
             public NodeInfo(string reference)
@@ -75,33 +77,35 @@ namespace WikiDownloader.GraphBuilderCli.Services
         private static NodeInfo GetNodeInfo(IReadOnlyDictionary<string, WikiPageTitle> dict, string title)
         {
             var stack = new Stack<string>();
-            var current = dict[title];
 
-            if (current.ReferenceName == null)
+            if (dict[title].ReferenceName == null)
             {
                 return new NodeInfo(NodeType.Regular);
             }
 
+            stack.Push(dict[title].Name);
+
             while (true)
             {
-                if (dict.TryGetValue(current.Name, out var value))
-                {
-                    if (value.ReferenceName != null)
-                    {
-                        return new NodeInfo(value.Name);
-                    }
+                var current = stack.Peek();
+                var next = dict[current].ReferenceName;
 
-                    if (stack.Contains(current.Name))
-                    {
-                        return new NodeInfo(NodeType.CycleReference);
-                    }
-
-                    stack.Push(current.Name);
-                }
-                else
+                if (!dict.TryGetValue(next, out var value))
                 {
                     return new NodeInfo(NodeType.BadReference);
                 }
+
+                if (value.ReferenceName == null)
+                {
+                    return new NodeInfo(value.Name);
+                }
+
+                if (stack.Contains(next))
+                {
+                    return new NodeInfo(NodeType.CycleReference);
+                }
+
+                stack.Push(next);
             }
         }
     }

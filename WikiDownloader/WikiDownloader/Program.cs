@@ -20,7 +20,7 @@ namespace WikiDownloader
         internal static async Task Main(string[] args)
         {
             var httpClient = new HttpClient();
-            var wikiApiProvider = new WikiApiProvider(httpClient, new Uri(TinyApiUrl));
+            var wikiApiProvider = new WikiApiProvider(httpClient, new Uri(SimpleApiUrl));
 
             var mongoClient = new MongoClient(MongoDbConnString);
             var storage = new MongoWikiDownloadStorage(mongoClient);

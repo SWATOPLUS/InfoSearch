@@ -10,7 +10,7 @@ namespace WikiDownloader.GraphAnalyzerCli
     {
         private static readonly double[] Deltas = { 0.95, 0.85, 0.5, 0.3 };
 
-        private const int Iterations = 20;
+        private const int Iterations = 100;
 
         private const string EdgesInputFileName = "edges.output.json";
         private static  string BuildRanksOutputFileName(double delta) => $"ranks-{delta}.output.json";

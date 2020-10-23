@@ -37,6 +37,7 @@ namespace WikiDownloader.GraphBuilderCli
                 edges[title] = ExtractReferences(content)
                     .Select(x => MapReference(nodeKeysInfo, x))
                     .Where(x => x != null)
+                    .Distinct()
                     .ToArray();
             }
 

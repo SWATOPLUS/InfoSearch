@@ -33,7 +33,7 @@ namespace WikiDownloader.ContentLoaderWeb
             services.AddControllers();
             services.AddTransient<HttpClient>();
             services.AddTransient<IMongoClient>(context => new MongoClient(MongoDbConnString));
-            services.AddTransient(context => new WikiPageDownloaderService(new Uri(TinyWikiUrl)));
+            services.AddTransient(context => new WikiPageDownloaderService(new Uri(SimpleWikiUrl)));
             services.AddTransient<IWikiDownloaderStorage, MongoWikiDownloadStorage>();
             services.AddHostedService<ContentDownloaderJob>();
         }

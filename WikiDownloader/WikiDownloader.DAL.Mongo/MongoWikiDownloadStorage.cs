@@ -12,7 +12,7 @@ namespace WikiDownloader.DAL.Mongo
 {
     public class MongoWikiDownloadStorage : IWikiDownloaderStorage
     {
-        private const string DataBaseName = "wiki-download";
+        private const string DataBaseName = "simple-wiki-download";
 
         private const string PropertiesCollection = "properties";
         private const string PageTitlesCollection = "page-titles";
