@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace DuplicateFinder.Core
@@ -8,15 +7,44 @@ namespace DuplicateFinder.Core
     public static class SourceCodeNormalizer
     {
         private static readonly Regex WhiteSpaceRegex = new Regex("[\\s\\uFEFF\\u200B]+", RegexOptions.Compiled);
+        private static readonly Regex UsingRegex = new Regex("\\s*using\\s+.+;");
+        private static readonly Regex ImportRegex = new Regex("\\s*import\\s+.+;");
+        private static readonly Regex NameSpaceRegex = new Regex("\\s*namespace\\s+");
+        private static readonly Regex IncludeRegex = new Regex("\\s*#include\\s+");
 
-        public static string RemoveWhiteSpaces(string source)
+        public static string Normalize(string source)
         {
-            var commentPattern = @"/[*][\w\d\s]*[*]/";
+            var lines = source.Split('\n')
+                .Select(x => WhiteSpaceRegex.Replace(x, " ").Trim())
+                .Select(CleanSingleLineComment)
+                .Select(CleanPythonSingleLineComment)
+                .Where(x => !IsDumpLine(x));
 
-            source = Regex.Replace(source, commentPattern, " ", RegexOptions.Multiline);
-            source = string.Join(" ", source.Split('\n').Select(CleanSingleLineComment));
+            source = string.Join(" ", lines);
+            source = CleanMultiLineComment(source);
+            source = AddSpacesForOperators(source);
+            source = CleanStringLiterals(source);
+            source = CleanCharLiterals(source);
 
-            return WhiteSpaceRegex.Replace(source, " ");
+            return WhiteSpaceRegex.Replace(source, " ").Trim();
+        }
+
+        public static bool IsDumpLine(string line)
+        {
+            return UsingRegex.IsMatch(line)
+                   || ImportRegex.IsMatch(line)
+                   || NameSpaceRegex.IsMatch(line)
+                   || IncludeRegex.IsMatch(line);
+        }
+
+        public static string AddSpacesForOperators(string source)
+        {
+            foreach (var c in TextTools.Punctuation)
+            {
+                source = source.Replace($"{c}", $" {c} ");
+            }
+
+            return source;
         }
 
         public static string CleanSingleLineComment(string line)
@@ -26,51 +54,129 @@ namespace DuplicateFinder.Core
             return Regex.Replace(line, commentPattern, string.Empty);
         }
 
+        public static string CleanPythonSingleLineComment(string line)
+        {
+            var commentPattern = @"#.*";
+
+            return Regex.Replace(line, commentPattern, string.Empty);
+        }
+
         public static string CleanMultiLineComment(string text)
         {
-            var startPattern = "/[*]";
-            var endPattern = "[*]/";
+            var pattern = "(/[*])|([*]/)";
+            var start = "/*";
+            var end = "*/";
 
-            var starts = Regex.Matches(text, startPattern).Select(x => x.Index).ToArray();
-            var ends = Regex.Matches(text, endPattern).Select(x => x.Index).ToArray();
+            var matches = Regex.Matches(text, pattern).ToArray();
 
-            var comments = new List<(int, int)>();
-            var startsQueue = new Queue<int>(starts);
-            var endsQueue = new Queue<int>(ends);
-
-            var index = 0;
-
-            while (startsQueue.Count > 0)
+            if (matches.Length < 1)
             {
-                var start = startsQueue.Dequeue();
-
-                if (index > start)
-                {
-                    continue;
-                }
-
-                var end = 0;
-
-                while (endsQueue.Count > 0)
-                {
-                    end = endsQueue.Dequeue();
-
-                    if (end > start)
-                    {
-                        break;
-                    }
-                }
-
-                if (end < start)
-                {
-                    break;
-                }
-
-                comments.Add((start, end + 2));
-                index = end + 2;
+                return text;
             }
 
+            var builder = new StringBuilder();
 
+            var index = 0;
+            var inComment = false;
+
+            foreach (var match in matches)
+            {
+                if (!inComment && match.Value == start)
+                {
+                    inComment = true;
+                    builder.Append(text.Substring(index, match.Index - index));
+                    builder.Append(' ');
+                }
+
+                if (inComment && match.Value == end)
+                {
+                    inComment = false;
+                    index = match.Index + 2;
+                }
+            }
+
+            if (!inComment)
+            {
+                builder.Append(text.Substring(index, text.Length - index));
+            }
+
+            return builder.ToString();
+        }
+
+        public static string CleanStringLiterals(string text)
+        {
+            var pattern = "\"";
+
+            var matches = Regex.Matches(text, pattern).ToArray();
+
+            if (matches.Length < 1)
+            {
+                return text;
+            }
+
+            var builder = new StringBuilder();
+
+            var index = 0;
+            var inLiteral = false;
+
+            foreach (var match in matches)
+            {
+                if (!inLiteral)
+                {
+                    inLiteral = true;
+                    builder.Append(text.Substring(index, match.Index - index));
+                    builder.Append(' ');
+                } else {
+                    inLiteral = false;
+                    index = match.Index + 2;
+                }
+            }
+
+            if (!inLiteral)
+            {
+                builder.Append(text.Substring(index, text.Length - index));
+            }
+
+            return builder.ToString();
+        }
+
+        public static string CleanCharLiterals(string text)
+        {
+            var pattern = "'";
+
+            var matches = Regex.Matches(text, pattern).ToArray();
+
+            if (matches.Length < 1)
+            {
+                return text;
+            }
+
+            var builder = new StringBuilder();
+
+            var index = 0;
+            var inLiteral = false;
+
+            foreach (var match in matches)
+            {
+                if (!inLiteral)
+                {
+                    inLiteral = true;
+                    builder.Append(text.Substring(index, match.Index - index));
+                    builder.Append(' ');
+                }
+                else
+                {
+                    inLiteral = false;
+                    index = match.Index + 2;
+                }
+            }
+
+            if (!inLiteral)
+            {
+                builder.Append(text.Substring(index, text.Length - index));
+            }
+
+            return builder.ToString();
         }
     }
 }

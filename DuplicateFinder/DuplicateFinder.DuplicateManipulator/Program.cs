@@ -16,7 +16,7 @@ namespace DuplicateFinder.DuplicateManipulator
         {
             var groundTruth = DuplicateRates.FromLines(File.ReadLines(GroundTruthFile));
             var documents = DirectoryTools.ReadStringDictionary(InputFile)
-                .MapValues(SourceCodeNormalizer.RemoveWhiteSpaces);
+                .MapValues(SourceCodeNormalizer.Normalize);
 
             var hashes = HashTools.HashValues(documents);
             var duplicates = FindDuplicates(hashes, groundTruth);

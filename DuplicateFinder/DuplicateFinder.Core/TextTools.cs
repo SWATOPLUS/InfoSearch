@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace DuplicateFinder.Core
 {
@@ -11,12 +12,22 @@ namespace DuplicateFinder.Core
         public static readonly IReadOnlyList<char> EnglishCharsLow = GetChars('a', 'z');
         public static readonly IReadOnlyList<char> RussianCharsLow = GetChars('а', 'я');
         public static readonly IReadOnlyList<char> NumberChars = GetChars('0', '9');
-        public static readonly IReadOnlyList<char> Punctuation = "()[]{}<>,.:;'\"!?+-*/^|&"
+
+        public static readonly IReadOnlyList<char> ExtraSymbolChars = "_"
             .ToImmutableArray();
 
-        public static readonly IReadOnlyList<char> SourceCodeChars = EnglishCharsHigh
+        public static readonly IReadOnlyList<char> Punctuation = "()[]{}<>,.:;'\"!?+-*/^|&=\\%~"
+            .ToImmutableArray();
+
+        public static readonly IReadOnlyList<char> SymbolChars = ExtraSymbolChars
+            .Concat(EnglishCharsHigh)
             .Concat(EnglishCharsLow)
+            .Concat(RussianCharsHigh)
+            .Concat(RussianCharsLow)
             .Concat(NumberChars)
+            .ToImmutableArray();
+
+        public static readonly IReadOnlyList<char> SourceCodeChars = SymbolChars
             .Concat(Punctuation)
             .ToImmutableArray();
 

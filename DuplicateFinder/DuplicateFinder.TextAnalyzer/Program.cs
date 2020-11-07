@@ -1,7 +1,4 @@
-﻿using System.CodeDom;
-using System.CodeDom.Compiler;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using DuplicateFinder.Core;
 
 namespace DuplicateFinder.TextAnalyzer
@@ -11,8 +8,6 @@ namespace DuplicateFinder.TextAnalyzer
         private const string InputFile = "../../assets/sources-clean.json";
         private const string OutputFile = "../../assets/text-stats.json";
 
-
-
         private static void Main()
         {
             var documents = DirectoryTools.ReadStringDictionary(InputFile);
@@ -21,13 +16,19 @@ namespace DuplicateFinder.TextAnalyzer
             var chars = allText
                 .Distinct()
                 .Except(TextTools.SourceCodeChars)
-                //.Except(TextTools.RussianCharsHigh)
-                //.Except(TextTools.RussianCharsLow)
                 .ToArray();
-            
+
+            var words = allText
+                .Split(" ")
+                .GroupBy(x => x)
+                .ToDictionary(x => x.Key, x => x.Count())
+                .OrderByDescending(x => x.Value)
+                .ToDictionary(x => x.Key, x => x.Value);
+
             var result = new
             {
-                Chars = chars,
+                chars,
+                words,
             };
 
             DirectoryTools.SaveAsJson(result, OutputFile);
