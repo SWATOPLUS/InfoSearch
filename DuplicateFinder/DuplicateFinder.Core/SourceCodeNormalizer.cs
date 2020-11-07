@@ -8,11 +8,16 @@ namespace DuplicateFinder.Core
     {
         private static readonly Regex WhiteSpaceRegex = new Regex("[\\s\\uFEFF\\u200B]+", RegexOptions.Compiled);
         private static readonly Regex UsingRegex = new Regex("\\s*using\\s+.+;");
-        private static readonly Regex ImportRegex = new Regex("\\s*import\\s+.+;");
+        private static readonly Regex ImportRegex = new Regex("\\s*import\\s+.+");
         private static readonly Regex NameSpaceRegex = new Regex("\\s*namespace\\s+");
         private static readonly Regex IncludeRegex = new Regex("\\s*#include\\s+");
 
-        public static string Normalize(string source)
+        public static string NormalizeSpaces(this string source)
+        {
+            return WhiteSpaceRegex.Replace(source, " ").Trim();
+        }
+
+        public static string NormalizeContent(this string source)
         {
             var lines = source.Split('\n')
                 .Select(x => WhiteSpaceRegex.Replace(x, " ").Trim())
@@ -24,9 +29,40 @@ namespace DuplicateFinder.Core
             source = CleanMultiLineComment(source);
             source = AddSpacesForOperators(source);
             source = CleanStringLiterals(source);
-            source = CleanCharLiterals(source);
+            
+            return CleanCharLiterals(source);
+        }
 
-            return WhiteSpaceRegex.Replace(source, " ").Trim();
+        public static string NormalizeWords(this string source)
+        {
+            return RenameEntityByFrequency(source);
+        }
+
+        public static string RenameEntityByFrequency(string text)
+        {
+            var words = text
+                .Split(' ')
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .ToArray();
+
+            var dict = words
+                .Where(IsEntity)
+                .GroupBy(x => x)
+                .ToDictionary(x => x.Key, x => $"w{x.Count()}");
+
+            return string.Join(" ", words.Select(x =>
+            {
+                dict.TryGetValue(x, out var result);
+                return result ?? x;
+            }));
+        }
+
+        public static bool IsEntity(string word)
+        { 
+            return !word
+                .Distinct()
+                .Except(TextTools.SymbolChars)
+                .Any();
         }
 
         public static bool IsDumpLine(string line)

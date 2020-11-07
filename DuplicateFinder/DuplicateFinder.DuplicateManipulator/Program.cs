@@ -16,7 +16,10 @@ namespace DuplicateFinder.DuplicateManipulator
         {
             var groundTruth = DuplicateRates.FromLines(File.ReadLines(GroundTruthFile));
             var documents = DirectoryTools.ReadStringDictionary(InputFile)
-                .MapValues(SourceCodeNormalizer.Normalize);
+                .MapValues(SourceCodeNormalizer.NormalizeContent)
+                .MapValues(SourceCodeNormalizer.NormalizeSpaces)
+                .MapValues(SourceCodeNormalizer.NormalizeWords)
+                .MapValues(SourceCodeNormalizer.NormalizeSpaces);
 
             var hashes = HashTools.HashValues(documents);
             var duplicates = FindDuplicates(hashes, groundTruth);
@@ -30,6 +33,7 @@ namespace DuplicateFinder.DuplicateManipulator
             Dictionary<ulong, string[]> hashes,
             DuplicateRates duplicateRates)
         {
+            var totalErrors = 0;
             var groupCount = 0;
             var duplicates = new List<string>();
 
@@ -52,6 +56,7 @@ namespace DuplicateFinder.DuplicateManipulator
                     else
                     {
                         errors++;
+                        totalErrors++;
                     }
                 }
 
@@ -59,6 +64,10 @@ namespace DuplicateFinder.DuplicateManipulator
 
                 Console.WriteLine($"Group {groupCount}, size: {names.Length}, mistakes: {errors}");
             }
+
+            Console.WriteLine($"Total errors: {totalErrors}");
+            Console.WriteLine($"Total groups: {groupCount}");
+            Console.WriteLine($"Total duplicates: {duplicates.Count}");
 
             return duplicates;
         }

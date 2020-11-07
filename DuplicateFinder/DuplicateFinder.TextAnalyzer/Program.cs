@@ -19,7 +19,7 @@ namespace DuplicateFinder.TextAnalyzer
                 .ToArray();
 
             var words = allText
-                .Split(" ")
+                .Split()
                 .GroupBy(x => x)
                 .ToDictionary(x => x.Key, x => x.Count())
                 .OrderByDescending(x => x.Value)

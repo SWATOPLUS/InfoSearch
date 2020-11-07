@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WikiDownloader.PageExtractor": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}

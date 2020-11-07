@@ -15,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.Services", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.GraphBuilderCli", "WikiDownloader.GraphBuilderCli\WikiDownloader.GraphBuilderCli.csproj", "{76754C9E-4825-408A-A784-FA8CED28F225}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiDownloader.GraphAnalyzerCli", "WikiDownloader.GraphAnalyzerCli\WikiDownloader.GraphAnalyzerCli.csproj", "{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.GraphAnalyzerCli", "WikiDownloader.GraphAnalyzerCli\WikiDownloader.GraphAnalyzerCli.csproj", "{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WikiDownloader.GraphAnalyzerCli.Tests", "WikiDownloader.GraphAnalyzerCli.Tests\WikiDownloader.GraphAnalyzerCli.Tests.csproj", "{2291CA3E-FD38-4E67-9C2F-65B9AD637AAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiDownloader.PageExtractor", "WikiDownloader.PageExtractor\WikiDownloader.PageExtractor.csproj", "{6CE0032E-1567-4A23-BFCD-4BF7D193FE48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{624F8AAF-1D8A-48DE-8381-604D5D7EB1B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2291CA3E-FD38-4E67-9C2F-65B9AD637AAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2291CA3E-FD38-4E67-9C2F-65B9AD637AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2291CA3E-FD38-4E67-9C2F-65B9AD637AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2291CA3E-FD38-4E67-9C2F-65B9AD637AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CE0032E-1567-4A23-BFCD-4BF7D193FE48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CE0032E-1567-4A23-BFCD-4BF7D193FE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CE0032E-1567-4A23-BFCD-4BF7D193FE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CE0032E-1567-4A23-BFCD-4BF7D193FE48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

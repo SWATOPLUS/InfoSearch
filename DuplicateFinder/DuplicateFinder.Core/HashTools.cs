@@ -8,7 +8,7 @@ namespace DuplicateFinder.Core
 {
     public static class HashTools
     {
-        private static readonly HashAlgorithm HashAlgorithm = new MD5CryptoServiceProvider();
+        private static readonly HashAlgorithm HashAlgorithm = new SHA512CryptoServiceProvider();
         private static readonly Random Random = new Random(42);
         private static readonly List<ulong> Salts = new List<ulong>();
 
@@ -28,6 +28,15 @@ namespace DuplicateFinder.Core
             var hash = HashAlgorithm.ComputeHash(data);
 
             return BitConverter.ToUInt64(hash, 0);
+        }
+
+        public static byte[] GetByteHash(string input, int byteCount)
+        {
+            var data = Encoding.UTF8.GetBytes(input);
+
+            var hash = HashAlgorithm.ComputeHash(data);
+
+            return hash.Take(byteCount).ToArray();
         }
 
         public static Dictionary<ulong, string[]> HashValues(Dictionary<string, string> dict)

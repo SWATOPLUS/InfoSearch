@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace DuplicateFinder.Core
 {
@@ -34,7 +33,7 @@ namespace DuplicateFinder.Core
         public static IReadOnlyList<char> GetChars(char start, char end)
         {
             return Enumerable.Range(start, end - start + 1)
-                .Select(x => (char) x)
+                .Select(x => (char)x)
                 .ToImmutableArray();
         }
     }
