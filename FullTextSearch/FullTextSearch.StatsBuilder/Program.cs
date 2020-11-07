@@ -19,8 +19,7 @@ namespace FullTextSearch.StatsBuilder
             File.WriteAllText(SearchStatsOutputFileName, JsonConvert.SerializeObject(stats));
         }
 
-        private static readonly char[] Punctuation = "()[]{}<>,.:;'\"!?+-*/^|&=\\%~"
-            .ToArray();
+
 
         private static SearchStats BuildSearchStats(Dictionary<string, string> pages)
         {
@@ -52,18 +51,10 @@ namespace FullTextSearch.StatsBuilder
                 TermsCount = pageTerms.Count,
                 AveragePageWordCount = (decimal)pageWordCount.Values.Sum() / pageTerms.Count,
                 PagesWordCount = pageWordCount,
-                TermsPagesCount = termsAtPagesPagesCount,
-                TermsAtPagesUsed = termsAtPagesUsed,
+                TermOnPageCount = termsAtPagesPagesCount,
+                TermAtPagesCount = termsAtPagesUsed,
+                DocumentsCount = pages.Count,
             };
-        }
-
-        private static string[] BuildTerms(string content)
-        {
-            return content
-                .Split()
-                .Select(x => x.Trim(Punctuation.ToArray()))
-                .Where(x => !string.IsNullOrWhiteSpace(x))
-                .ToArray();
         }
     }
 }

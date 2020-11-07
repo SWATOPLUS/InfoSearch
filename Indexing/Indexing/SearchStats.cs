@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FullTextSearch.Core.Data
+namespace Indexing
 {
     public class SearchStats
     {
