@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FullTextSearch": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}

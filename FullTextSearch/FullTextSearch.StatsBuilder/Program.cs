@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using FullTextSearch.Core;
 using FullTextSearch.Core.Data;
-using Newtonsoft.Json;
 
 namespace FullTextSearch.StatsBuilder
 {
@@ -10,51 +9,18 @@ namespace FullTextSearch.StatsBuilder
     {
         private const string PagesInputFileName = "../assets/pages.json";
         private const string SearchStatsOutputFileName = "../assets/search-stats.json";
+        private const string InvertIndexOutputFileName = "../assets/invert-index.json";
 
         private static void Main()
         {
-            var pages = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(PagesInputFileName));
-            var stats = BuildSearchStats(pages);
+            var pages = FileUtility.ReadJson<Dictionary<string, string>>(PagesInputFileName);
+            var stats = SearchStats.Build(pages);
+            var index = InvertIndex.Build(stats);
 
-            File.WriteAllText(SearchStatsOutputFileName, JsonConvert.SerializeObject(stats));
+            FileUtility.WriteJson(SearchStatsOutputFileName, stats);
+            FileUtility.WriteJson(InvertIndexOutputFileName, index);
         }
 
 
-
-        private static SearchStats BuildSearchStats(Dictionary<string, string> pages)
-        {
-            var pageTerms = pages
-                .ToDictionary(x => x.Key, x => BuildTerms(x.Value));
-
-            var allTerms = pageTerms.Values
-                .SelectMany(x => x)
-                .Distinct()
-                .ToArray();
-
-            var termsAtPagesPagesCount = allTerms.ToDictionary(x => x, x => new Dictionary<string, int>());
-            var termsAtPagesUsed = allTerms.ToDictionary(x => x, x => 0);
-            var pageWordCount = new Dictionary<string, int>();
-
-            foreach (var (name, terms) in pageTerms)
-            {
-                foreach (var group in terms.GroupBy(x => x))
-                {
-                    termsAtPagesPagesCount[group.Key][name] = group.Count();
-                    termsAtPagesUsed[group.Key] += 1;
-                }
-
-                pageWordCount[name] = terms.Length;
-            }
-
-            return new SearchStats
-            {
-                TermsCount = pageTerms.Count,
-                AveragePageWordCount = (decimal)pageWordCount.Values.Sum() / pageTerms.Count,
-                PagesWordCount = pageWordCount,
-                TermOnPageCount = termsAtPagesPagesCount,
-                TermAtPagesCount = termsAtPagesUsed,
-                DocumentsCount = pages.Count,
-            };
-        }
     }
 }

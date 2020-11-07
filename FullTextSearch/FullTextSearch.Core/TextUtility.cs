@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
 namespace FullTextSearch.Core
 {
@@ -16,6 +13,7 @@ namespace FullTextSearch.Core
                 .Split()
                 .Select(x => x.Trim(Punctuation.ToArray()))
                 .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Select(x => x.ToLowerInvariant())
                 .ToArray();
         }
     }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace Indexing
+namespace FullTextSearch.Core.Data
 {
     public class InvertIndex
     {
@@ -13,7 +10,7 @@ namespace Indexing
 
         public string[] Terms { get; set; }
         public string[] Pages { get; set; }
-        public Dictionary<int, List<(int Page, int Count)>> TermIdAndPageIdToCount { get; set; }
+        public Dictionary<int, (int Page, int Count)[]> TermIdAndPageIdToCount { get; set; }
 
         public static InvertIndex Build(SearchStats stats)
         {
@@ -25,20 +22,20 @@ namespace Indexing
                 .Select((x, i) => (x, i))
                 .ToDictionary(x => x.x, x => x.i);
 
-            var index = new Dictionary<int, List<(int, int)>>();
+            var index = new Dictionary<int, (int, int)[]>();
 
             foreach (var (term, termIndex) in terms)
             {
-                index[termIndex] = new List<(int, int)>();
+                var postingList = new List<(int, int)>();
 
                 foreach (var (page, count)  in stats.TermOnPageCount[term])
                 {
                     var pageIndex = pages[page];
 
-                    index[termIndex].Add((pageIndex, count));
+                    postingList.Add((pageIndex, count));
                 }
 
-                index[termIndex] = index[termIndex].OrderBy(x => x.Item1).ToList();
+                index[termIndex] = postingList.OrderBy(x => x.Item1).ToArray();
             }
 
             return new InvertIndex
@@ -51,28 +48,28 @@ namespace Indexing
             };
         }
 
-        public static InvertIndex Prune(InvertIndex index, int count)
+        public InvertIndex Prune(int count)
         {
             return new InvertIndex
             {
-                Terms = index.Terms,
-                Pages = index.Pages,
-                TermIndexes = index.TermIndexes,
-                PageIndexes = index.PageIndexes,
-                TermIdAndPageIdToCount = index.TermIdAndPageIdToCount
+                Terms = Terms,
+                Pages = Pages,
+                TermIndexes = TermIndexes,
+                PageIndexes = PageIndexes,
+                TermIdAndPageIdToCount = TermIdAndPageIdToCount
                     .ToDictionary(x => x.Key, x => Prune(x.Value, count)),
             };
         }
 
-        public static List<(int Page, int Count)> Prune(
-            List<(int Page, int Count)> postingList,
+        private static (int Page, int Count)[] Prune(
+            IEnumerable<(int Page, int Count)> postingList,
             int count)
         {
             return postingList
                 .OrderByDescending(x => x.Count)
                 .Take(count)
                 .OrderBy(x => x.Page)
-                .ToList();
+                .ToArray();
         }
     }
 }

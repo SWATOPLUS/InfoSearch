@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FullTextSearch.StatsBuilder": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}
