@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "FullTextSearch.Core.Tests": {
+      "commandName": "Project",
+      "workingDirectory": "."
+    }
+  }
+}

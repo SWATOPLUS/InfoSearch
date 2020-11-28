@@ -16,9 +16,9 @@ namespace DuplicateFinder.DuplicateManipulator
         {
             var groundTruth = DuplicateRates.FromLines(File.ReadLines(GroundTruthFile));
             var documents = DirectoryTools.ReadStringDictionary(InputFile)
-                .MapValues(SourceCodeNormalizer.NormalizeContent)
-                .MapValues(SourceCodeNormalizer.NormalizeSpaces)
-                .MapValues(SourceCodeNormalizer.NormalizeWords)
+                //.MapValues(SourceCodeNormalizer.NormalizeContent)
+                //.MapValues(SourceCodeNormalizer.NormalizeSpaces)
+                //.MapValues(SourceCodeNormalizer.NormalizeWords)
                 .MapValues(SourceCodeNormalizer.NormalizeSpaces);
 
             var hashes = HashTools.HashValues(documents);
@@ -49,7 +49,7 @@ namespace DuplicateFinder.DuplicateManipulator
 
                 foreach (var name in names.Skip(1))
                 {
-                    if (duplicateRates.GetSimilarity(parent, name) - 1 < 0.001)
+                    if (Math.Abs(duplicateRates.GetSimilarity(parent, name) - 1) < 0.001)
                     {
                         duplicates.Add(name);
                     }

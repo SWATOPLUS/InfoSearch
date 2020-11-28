@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using Google.Protobuf;
 using Newtonsoft.Json;
 
 namespace FullTextSearch.Core
