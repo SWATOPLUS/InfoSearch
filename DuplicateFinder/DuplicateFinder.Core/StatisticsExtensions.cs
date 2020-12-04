@@ -13,7 +13,7 @@ namespace DuplicateFinder.Core
         {
             return relevance
                 .Take(count)
-                .Select((x, i) => Math.Pow(2.0, x - 1) / Math.Log2(i + 2.0))
+                .Select((x, i) => (Math.Pow(2.0, x) - 1) / Math.Log2(i + 2.0))
                 .Sum();
         }
 
